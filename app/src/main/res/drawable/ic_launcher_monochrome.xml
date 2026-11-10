@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Capa monocroma para los iconos tematicos de Android 13+ (el sistema la
+    recolorea con el tema del usuario, asi que aca solo importa la silueta).
+
+    Es el mismo motivo que el foreground pero con trazo mas grueso y sin los
+    detalles finos: cuando el sistema lo tinta y lo recorta, la onda dentro de
+    la pantalla y los bornes se pierden igual, y dejarlos solo ensucia.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108"
+    android:tint="#000000">
+
+    <!-- Arcos de senal -->
+    <path
+        android:pathData="M46,32 A10,10 0 0 1 62,32"
+        android:strokeColor="#000000"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"
+        android:fillColor="#00000000"/>
+    <path
+        android:pathData="M40,27 A16,16 0 0 1 68,27"
+        android:strokeColor="#000000"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"
+        android:fillColor="#00000000"/>
+
+    <!-- Punto emisor -->
+    <path
+        android:pathData="M54,36 m-3,0 a3,3 0 1,0 6,0 a3,3 0 1,0 -6,0"
+        android:fillColor="#000000"/>
+
+    <!-- Cuerpo del IED -->
+    <path
+        android:pathData="M34,44 L74,44 A3,3 0 0 1 77,47 L77,83 A3,3 0 0 1 74,86
+                          L34,86 A3,3 0 0 1 31,83 L31,47 A3,3 0 0 1 34,44 Z"
+        android:strokeColor="#000000"
+        android:strokeWidth="3.4"
+        android:fillColor="#00000000"/>
+
+    <!-- Pantalla, rellena para que la silueta se lea -->
+    <path
+        android:pathData="M38,50 L70,50 L70,68 L38,68 Z"
+        android:fillColor="#000000"/>
+
+    <!-- Fila de LEDs -->
+    <path
+        android:pathData="M42,74 L48,74 M51,74 L57,74 M60,74 L66,74"
+        android:strokeColor="#000000"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"
+        android:fillColor="#00000000"/>
+</vector>

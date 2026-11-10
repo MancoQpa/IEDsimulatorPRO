@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Fondo del dialogo Acerca de. Existe para poder recortar al contorno
+    (clipToOutline): sin esto, la cabecera azul marino asomaria con esquinas
+    cuadradas por fuera del dialogo, que tiene 16dp de radio.
+    El radio debe coincidir con dialogCornerRadius de AboutDialogTheme.
+-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="@color/background_card" />
+    <corners android:radius="16dp" />
+</shape>

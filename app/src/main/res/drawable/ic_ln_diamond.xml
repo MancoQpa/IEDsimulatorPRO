@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Diamante: nodos de sistema y genericos. Grupos L/G, siguiendo createDiamondIcon(). -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp" android:height="24dp"
+    android:viewportWidth="24" android:viewportHeight="24"
+    android:tint="?attr/colorControlNormal">
+    <path android:pathData="M12,2.5 L21.5,12 L12,21.5 L2.5,12 Z"
+          android:fillColor="#FFFFFF"/>
+    <path android:pathData="M12,6 L18,12 L12,18 L6,12 Z"
+          android:fillColor="#000000"
+          android:fillAlpha="0.35"/>
+</vector>

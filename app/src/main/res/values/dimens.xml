@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Medidas de la ventana de maniobra, para telefono.
+
+    La variante de tablet esta en values-sw600dp/. El calificador sw600dp mira el
+    ancho MENOR de la pantalla, asi que no cambia al rotar: un telefono en
+    horizontal sigue usando estos valores, que es lo correcto — lo que limita ahi
+    es el alto, no el ancho.
+-->
+<resources>
+    <!-- Simbolo del aparato. En telefono se dimensiona para no alargar la fila. -->
+    <dimen name="maniobra_sym_w">36dp</dimen>
+    <dimen name="maniobra_sym_h">52dp</dimen>
+    <dimen name="maniobra_sym_margen">10dp</dimen>
+
+    <!-- Margen lateral de la lista. En pantallas anchas crece, para que los
+         botones no queden a media pantalla de distancia del estado. -->
+    <dimen name="maniobra_lista_margen">0dp</dimen>
+
+    <dimen name="maniobra_fila_padding">10dp</dimen>
+    <dimen name="maniobra_boton_alto">40dp</dimen>
+    <dimen name="maniobra_boton_ancho">80dp</dimen>
+
+    <dimen name="maniobra_txt_nombre">14sp</dimen>
+    <dimen name="maniobra_txt_sub">11sp</dimen>
+    <dimen name="maniobra_txt_estado">13sp</dimen>
+    <dimen name="maniobra_txt_boton">12sp</dimen>
+</resources>

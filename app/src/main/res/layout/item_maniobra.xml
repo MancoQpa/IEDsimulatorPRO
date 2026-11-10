@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Fila de la ventana de maniobra.
+
+    El simbolo va a la izquierda y ocupa el alto que la fila ya tenia, asi que la
+    lista no se hace mas larga: es la restriccion que importa en telefono.
+
+    Todas las medidas salen de dimens.xml, con variante en values-sw600dp para
+    tablet. El layout es uno solo; lo unico que cambia con el ancho son numeros.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:padding="@dimen/maniobra_fila_padding"
+    android:layout_marginBottom="6dp"
+    android:background="@color/surface_variant">
+
+    <com.ied.simulator.SwitchSymbolView
+        android:id="@+id/sym_obj_estado"
+        android:layout_width="@dimen/maniobra_sym_w"
+        android:layout_height="@dimen/maniobra_sym_h"
+        android:layout_marginEnd="@dimen/maniobra_sym_margen" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_obj_nombre"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/maniobra_txt_nombre"
+            android:textStyle="bold"
+            android:textColor="@color/brand_navy" />
+
+        <TextView
+            android:id="@+id/tv_obj_ld"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/maniobra_txt_sub"
+            android:textColor="@color/text_secondary" />
+
+        <!-- Llave selectora del aparato. En el tablero real es una sola llave
+             rotativa por celda: define si el equipo acepta ordenes por
+             comunicacion o solo se opera a pie de maquina. -->
+        <LinearLayout
+            android:id="@+id/fila_llave"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="@string/llave_titulo"
+                android:textSize="11sp"
+                android:textColor="@color/text_secondary" />
+
+            <Button
+                android:id="@+id/btn_llave_local"
+                android:layout_width="wrap_content"
+                android:layout_height="38dp"
+                android:minWidth="86dp"
+                android:text="@string/llave_local"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:textColor="@color/text_on_primary" />
+
+            <Button
+                android:id="@+id/btn_llave_remoto"
+                android:layout_width="wrap_content"
+                android:layout_height="38dp"
+                android:minWidth="86dp"
+                android:layout_marginStart="6dp"
+                android:text="@string/llave_remoto"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:textColor="@color/text_on_primary" />
+        </LinearLayout>
+
+        <!-- Como responde el aparato (5.5.0): lo que en un equipo real depende del proceso. -->
+        <LinearLayout
+            android:id="@+id/fila_respuesta"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="6dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="@string/respuesta_titulo"
+                android:textSize="11sp"
+                android:textColor="@color/text_secondary" />
+
+            <Button
+                android:id="@+id/btn_respuesta"
+                android:layout_width="wrap_content"
+                android:layout_height="38dp"
+                android:minWidth="120dp"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:textColor="@color/text_on_primary" />
+
+            <Button
+                android:id="@+id/btn_sincronismo"
+                android:layout_width="wrap_content"
+                android:layout_height="38dp"
+                android:minWidth="120dp"
+                android:layout_marginStart="6dp"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:textColor="@color/text_on_primary" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="4dp">
+
+            <TextView
+                android:id="@+id/tv_obj_estado"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="@dimen/maniobra_txt_estado"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btn_obj_abrir"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/maniobra_boton_alto"
+                android:minWidth="@dimen/maniobra_boton_ancho"
+                android:text="@string/maniobra_abrir"
+                android:textSize="@dimen/maniobra_txt_boton"
+                android:textColor="@color/text_on_primary"
+                android:backgroundTint="@color/status_stopped" />
+
+            <Button
+                android:id="@+id/btn_obj_cerrar"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/maniobra_boton_alto"
+                android:minWidth="@dimen/maniobra_boton_ancho"
+                android:layout_marginStart="8dp"
+                android:text="@string/maniobra_cerrar"
+                android:textSize="@dimen/maniobra_txt_boton"
+                android:textColor="@color/text_on_primary"
+                android:backgroundTint="@color/status_running" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

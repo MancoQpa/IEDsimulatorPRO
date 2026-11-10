@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/bg_dialog_rounded">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:background="@color/brand_navy">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/maniobra_titulo"
+            android:textColor="@color/text_on_primary"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/maniobra_subtitulo"
+            android:textColor="@color/brand_cyan"
+            android:textSize="12sp"
+            android:layout_marginTop="4dp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_maniobra_vacio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="24dp"
+        android:text="@string/maniobra_sin_objetos"
+        android:textSize="13sp"
+        android:visibility="gone" />
+
+    <!-- Autoridad de mando del Logical Device: la jerarquia de arriba de la
+         llave por aparato. Define desde donde se puede mandar. -->
+    <TextView
+        android:id="@+id/tv_autoridad_titulo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="10dp"
+        android:text="@string/autoridad_titulo"
+        android:textSize="11sp"
+        android:textColor="@color/text_secondary" />
+
+    <LinearLayout
+        android:id="@+id/fila_autoridad"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="4dp">
+
+        <Button
+            android:id="@+id/btn_aut_local"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="42dp"
+            android:text="@string/llave_local"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            android:textColor="@color/text_on_primary" />
+
+        <Button
+            android:id="@+id/btn_aut_bahia"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="42dp"
+            android:layout_marginStart="6dp"
+            android:text="@string/autoridad_bahia"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            android:textColor="@color/text_on_primary" />
+
+        <Button
+            android:id="@+id/btn_aut_estacion"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="42dp"
+            android:layout_marginStart="6dp"
+            android:text="@string/autoridad_estacion"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            android:textColor="@color/text_on_primary" />
+
+        <Button
+            android:id="@+id/btn_aut_remoto"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="42dp"
+            android:layout_marginStart="6dp"
+            android:text="@string/llave_remoto"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            android:textColor="@color/text_on_primary" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_autoridad_efecto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="4dp"
+        android:textSize="11sp"
+        android:textColor="@color/primary" />
+
+    <CheckBox
+        android:id="@+id/chk_ver_todas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="8dp"
+        android:textSize="12sp"
+        android:textColor="@color/text_secondary" />
+
+    <!--
+        Indicador de trabajo en curso. Aparece solo si la operacion supera el
+        umbral: por debajo, mostrarlo y ocultarlo enseguida es un parpadeo que
+        molesta mas que la espera.
+    -->
+    <LinearLayout
+        android:id="@+id/layout_maniobra_cargando"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:visibility="gone">
+
+        <ProgressBar
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:indeterminate="true" />
+
+        <TextView
+            android:id="@+id/tv_maniobra_cargando"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:textSize="13sp"
+            android:textColor="@color/text_secondary" />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:minHeight="180dp">
+
+        <LinearLayout
+            android:id="@+id/contenedor_maniobra"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:paddingStart="@dimen/maniobra_lista_margen"
+            android:paddingEnd="@dimen/maniobra_lista_margen" />
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end"
+        android:padding="12dp">
+
+        <Button
+            android:id="@+id/btn_reiniciar_estado"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/maniobra_reiniciar"
+            android:textColor="@color/brand_amber" />
+
+        <Button
+            android:id="@+id/btn_maniobra_cerrar"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/action_close"
+            android:textColor="@color/primary" />
+    </LinearLayout>
+</LinearLayout>

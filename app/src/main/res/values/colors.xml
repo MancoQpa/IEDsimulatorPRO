@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Primary Colors - Industrial Blue -->
+    <color name="primary">#0D47A1</color>
+    <color name="primary_dark">#002171</color>
+    <color name="primary_light">#5472D3</color>
+
+    <!-- Secondary Colors - Energy Orange -->
+    <color name="secondary">#FF6F00</color>
+    <color name="secondary_dark">#C43E00</color>
+    <color name="secondary_light">#FFA040</color>
+
+    <!-- Status Colors -->
+    <color name="status_running">#2E7D32</color>
+    <color name="status_stopped">#C62828</color>
+    <color name="status_connecting">#F57C00</color>
+
+    <!-- Background Colors -->
+    <color name="background_dark">#1A237E</color>
+    <color name="background_card">#FFFFFF</color>
+    <color name="background_tree">#FAFAFA</color>
+
+    <!-- Text Colors -->
+    <color name="text_primary">#212121</color>
+    <color name="text_secondary">#757575</color>
+    <color name="text_on_primary">#FFFFFF</color>
+
+    <!-- Colores de nodo del arbol, con los RGB de IconFactory de IEDNavigator -->
+    <color name="node_ld">#6464C8</color>   <!-- Logical Device  (100,100,200) -->
+    <color name="node_ln">#2E7D32</color>
+    <color name="node_do">#9696C8</color>   <!-- Data Object     (150,150,200) -->
+    <color name="node_da">#64B464</color>   <!-- Data Attribute  (100,180,100) -->
+
+    <!-- FC Badge Colors -->
+    <color name="fc_st">#1976D2</color>
+    <color name="fc_mx">#388E3C</color>
+    <color name="fc_co">#D32F2F</color>
+    <color name="fc_sp">#7B1FA2</color>
+    <color name="fc_cf">#00796B</color>
+    <color name="fc_default">#616161</color>
+
+    <!-- Paraguay Flag Colors -->
+    <color name="py_red">#D52B1E</color>
+    <color name="py_white">#FFFFFF</color>
+    <color name="py_blue">#0038A8</color>
+
+    <!-- ================= Identidad visual compartida con IEDNavigator =========
+         Los tres colores de marca salen del icono de escritorio de IEDNavigator,
+         muestreados pixel a pixel de app_icon_256.png. Son los del launcher. -->
+    <color name="brand_navy">#010920</color>
+    <color name="brand_cyan">#09C0DB</color>
+    <color name="brand_amber">#FFBB01</color>
+
+    <!-- Colores por grupo de LN, con los RGB exactos de IconFactory.java de
+         IEDNavigator, para que el arbol se lea igual en las dos herramientas.
+         El grupo sale de la primera letra de la clase segun IEC 61850-7-4. -->
+    <color name="ln_xcbr">#C83232</color>   <!-- X conmutacion: interruptor  (200,50,50)  -->
+    <color name="ln_xswi">#C86432</color>   <!-- X conmutacion: seccionador  (200,100,50) -->
+    <color name="ln_mmxu">#0064C8</color>   <!-- M medicion                  (0,100,200)  -->
+    <color name="ln_mmtr">#009664</color>   <!-- M energia                   (0,150,100)  -->
+    <color name="ln_cswi">#9664C8</color>   <!-- C control                   (150,100,200)-->
+    <color name="ln_prot">#B41E1E</color>   <!-- P proteccion                (180,30,30)  -->
+    <color name="ln_rela">#821EAA</color>   <!-- R relacionada a proteccion  (130,30,170) -->
+    <color name="ln_auto">#0096AA</color>   <!-- A control automatico        (0,150,170)  -->
+    <color name="ln_syst">#464646</color>   <!-- L sistema                   (70,70,70)   -->
+    <color name="ln_genr">#5A5A5A</color>   <!-- G generico                  (90,90,90)   -->
+    <color name="ln_supv">#148C78</color>   <!-- S supervision               (20,140,120) -->
+    <color name="ln_trfm">#8C5000</color>   <!-- T transformador de medida   (140,80,0)   -->
+    <color name="ln_intf">#325AC8</color>   <!-- I interfaz                  (50,90,200)  -->
+    <color name="ln_zpwr">#505096</color>   <!-- Z otros equipos             (80,80,150)  -->
+    <color name="ln_default">#649664</color><!-- sin clasificar              (100,150,100)-->
+    <!-- (los colores de nodo LD/DO/DA estan mas arriba, en "Colores de nodo") -->
+
+    <!-- State Colors -->
+    <color name="state_on">#009600</color>
+    <color name="state_off">#C80000</color>
+    <color name="state_warn">#FF8C00</color>
+    <color name="state_bl">#7850B4</color>
+    <color name="state_bad">#757575</color>
+    <color name="surface_variant">#F2F5F9</color>
+</resources>

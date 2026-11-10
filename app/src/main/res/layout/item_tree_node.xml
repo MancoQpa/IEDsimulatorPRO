@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingVertical="4dp"
+    android:paddingEnd="8dp"
+    android:background="?attr/selectableItemBackground">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <!-- Expand/Collapse Arrow -->
+        <ImageView
+            android:id="@+id/iv_expand"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@android:drawable/ic_media_play"
+            android:scaleType="centerInside"
+            android:padding="4dp" />
+
+        <!-- Node Icon -->
+        <ImageView
+            android:id="@+id/iv_icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@android:drawable/ic_menu_info_details"
+            android:scaleType="centerInside" />
+
+        <!-- Node Name -->
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="NodeName"
+            android:textSize="14sp"
+            android:layout_marginStart="4dp"
+            android:ellipsize="end"
+            android:maxLines="1" />
+
+        <!-- Functional Constraint Badge -->
+        <TextView
+            android:id="@+id/tv_fc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="[ST]"
+            android:textSize="10sp"
+            android:textColor="@android:color/white"
+            android:background="@color/fc_st"
+            android:paddingHorizontal="6dp"
+            android:paddingVertical="2dp"
+            android:visibility="gone" />
+
+        <!-- BDA Type Badge -->
+        <TextView
+            android:id="@+id/tv_bda_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Float32"
+            android:textSize="9sp"
+            android:textColor="@android:color/white"
+            android:background="@color/fc_default"
+            android:paddingHorizontal="4dp"
+            android:paddingVertical="1dp"
+            android:layout_marginStart="4dp"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
+    <!-- Value Editor (for data attributes) -->
+    <LinearLayout
+        android:id="@+id/layout_value"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="2dp"
+        android:visibility="gone"
+        android:gravity="center_vertical">
+
+        <!-- Switch State Icon (for XCBR/CSWI Pos.stVal) -->
+        <ImageView
+            android:id="@+id/iv_switch_state"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:scaleType="fitCenter"
+            android:visibility="gone"
+            android:layout_marginEnd="8dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="= "
+            android:textSize="12sp"
+            android:textColor="@android:color/darker_gray" />
+
+        <!-- Text Input for regular values -->
+        <EditText
+            android:id="@+id/et_value"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="12sp"
+            android:fontFamily="monospace"
+            android:background="@android:drawable/editbox_background"
+            android:padding="4dp"
+            android:minHeight="32dp"
+            android:inputType="text"
+            android:singleLine="true" />
+
+        <!-- Dropdown for Boolean/Dbpos/TapCommand values -->
+        <Spinner
+            android:id="@+id/spinner_value"
+            android:layout_width="0dp"
+            android:layout_height="36dp"
+            android:layout_weight="1"
+            android:background="@android:drawable/btn_dropdown"
+            android:visibility="gone"
+            android:popupBackground="@android:color/white" />
+
+        <ImageButton
+            android:id="@+id/btn_apply"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:src="@android:drawable/ic_menu_send"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Apply"
+            android:layout_marginStart="4dp" />
+
+    </LinearLayout>
+
+</LinearLayout>

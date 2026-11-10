@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">IED Simulator</string>
+
+    <!-- Headers -->
+    <string name="header_server">IED SERVER SIMULATOR</string>
+
+    <!-- Status -->
+    <string name="status_stopped">DETENIDO</string>
+    <string name="status_running">EJECUTANDO</string>
+
+    <!-- Buttons -->
+    <string name="btn_select_scl">Seleccionar SCL</string>
+    <string name="btn_start_server">INICIAR SERVIDOR</string>
+    <string name="btn_stop_server">DETENER SERVIDOR</string>
+
+    <!-- Labels -->
+    <string name="label_port">Puerto:</string>
+    <string name="label_simulation_mode">Modo Simulacion (editar MX/ST)</string>
+    <string name="label_data_model">Modelo de Datos</string>
+    <string name="label_no_file">Ningun archivo seleccionado</string>
+    <string name="port_hint">102 es el estándar IEC 61850, pero Android no permite puertos menores a 1024</string>
+
+    <!-- About -->
+    <string name="about_title">Acerca de</string>
+    <string name="about_app_name">IED Server Simulator</string>
+    <string name="about_version">Versión %1$s</string>
+    <string name="about_description">Servidor IEC 61850 que simula un IED a partir de archivos SCL/CID/ICD/SCD —incluidos los que describen varios equipos, eligiendo cuál simular— para ensayar clientes, sistemas SCADA y automatización de subestaciones sin depender de un equipo real.</string>
+    <string name="about_developer">Desarrollado por</string>
+    <string name="about_developer_name">Emilio Medina</string>
+    <string name="about_country">Paraguay</string>
+    <string name="about_year">2026</string>
+    <string name="about_protocol">IEC 61850 sobre MMS (ISO 9506)</string>
+    <string name="about_library">Componentes de terceros</string>
+    <string name="about_license">iec61850bean — Apache License 2.0</string>
+
+    <!-- Messages -->
+    <string name="msg_loading_scl">Cargando archivo SCL...</string>
+    <string name="msg_parsing_model">Analizando modelo de datos...</string>
+    <string name="msg_loading_scd_hint">Un archivo SCD describe varios equipos y puede tardar más que un CID. Se procesa solo el dispositivo elegido.</string>
+    <string name="msg_loading_elapsed">Tiempo transcurrido: %d s</string>
+    <string name="msg_file_loaded">Archivo cargado correctamente</string>
+    <string name="msg_no_models">No se encontraron modelos en el archivo</string>
+    <string name="msg_select_scl_first">Primero seleccione un archivo SCL</string>
+    <string name="msg_invalid_port">Puerto invalido (1-65535)</string>
+    <string name="msg_server_started">Servidor iniciado en puerto %d</string>
+    <string name="msg_server_stopped">Servidor detenido</string>
+    <string name="msg_client_connected">Conectado a %s:%d</string>
+    <string name="msg_network_lost">Conexion de red perdida</string>
+
+    <!-- Watch List -->
+
+    <!-- License -->
+    <string name="license_title">Licencia de Software</string>
+    <string name="license_device_id">ID de Dispositivo</string>
+    <string name="license_device_id_hint">Proporcione este codigo al proveedor</string>
+    <string name="license_enter_code">Codigo de Activacion</string>
+    <string name="license_activate">ACTIVAR LICENCIA</string>
+    <string name="license_trial">Continuar en modo prueba</string>
+    <string name="license_expiry">Vence:</string>
+
+    <!-- Menu -->
+    <string name="menu_about">Acerca de</string>
+    <string name="menu_settings">Configuracion</string>
+    <string name="menu_expand_all">Expandir todo</string>
+    <string name="menu_collapse_all">Colapsar todo</string>
+    <string name="menu_refresh">Actualizar</string>
+    <string name="about_tagline">Simulador de servidor IEC 61850</string>
+    <string name="about_section_tech">Detalles técnicos</string>
+    <string name="about_section_legal">Licencias</string>
+    <string name="about_copyright">© 2026 Emilio Medina. Todos los derechos reservados.</string>
+    <string name="btn_close">Cerrar</string>
+    <string name="msg_port_privilegiado">El puerto %1$d no se puede usar: Android reserva los menores a 1024. Probá 10102.</string>
+    <string name="action_close">Cerrar</string>
+    <string name="maniobra_titulo">Maniobra local</string>
+    <string name="maniobra_subtitulo">Estado inicial del aparato, como a pie de equipo</string>
+    <string name="maniobra_sin_objetos">Este modelo no expone objetos de posicion maniobrables.</string>
+    <string name="maniobra_abrir">ABRIR</string>
+    <string name="maniobra_cerrar">CERRAR</string>
+    <string name="maniobra_reiniciar">Reiniciar estado</string>
+    <string name="maniobra_servidor_parado">Arranca el servidor para poder maniobrar el aparato.</string>
+    <string name="maniobra_reiniciado">Estado reiniciado: %1$d objeto(s)</string>
+    <string name="maniobra_sin_mando">sin mando (status-only)</string>
+    <string name="maniobra_comandado_por">comandado por</string>
+    <string name="maniobra_sin_mando_mms">sin mando por MMS · maniobra local siempre disponible</string>
+    <string name="maniobra_mando_mms">MMS: %1$s</string>
+    <string name="maniobra_ver_todas">Ver todas las señales (%1$d)</string>
+    <string name="maniobra_solo_aparatos">Solo aparatos de maniobra</string>
+    <string name="maniobra_otras_senales">OTRAS SEÑALES</string>
+    <string name="arbol_expandiendo">Expandiendo el árbol de nodos…</string>
+    <string name="arbol_colapsando">Colapsando el árbol de nodos…</string>
+    <string name="maniobra_cargando_lista">Leyendo el estado de los aparatos…</string>
+    <string name="maniobra_cargando_reinicio">Reiniciando el estado de los aparatos…</string>
+    <string name="salir_titulo">El servidor esta en marcha</string>
+    <string name="salir_mensaje">Si salis, el servidor sigue atendiendo clientes en segundo plano. Podes volver desde la notificacion.</string>
+    <string name="salir_detener">Detener y salir</string>
+    <string name="salir_dejar">Dejarlo corriendo</string>
+    <string name="salir_cancelar">Cancelar</string>
+    <string name="llave_titulo">Llave de mando del aparato</string>
+    <string name="llave_local">LOCAL</string>
+    <string name="llave_remoto">REMOTO</string>
+    <string name="autoridad_titulo">Autoridad de mando del Logical Device</string>
+    <string name="respuesta_titulo">Respuesta del aparato (simulación)</string>
+    <string name="respuesta_normal">NORMAL</string>
+    <string name="respuesta_sin_cablear">SIN CABLEAR</string>
+    <string name="respuesta_trabado">TRABADO</string>
+    <string name="respuesta_lento">LENTO (%1$d s)</string>
+    <string name="sincronismo_ok">SINCRONISMO OK</string>
+    <string name="sincronismo_falla">SINCRONISMO FALLA</string>
+    <string name="autoridad_bahia">BAHÍA</string>
+    <string name="autoridad_estacion">ESTACION</string>
+    <string name="autoridad_ef_local">LOCAL: selector en local, se rechaza todo mando por comunicación</string>
+    <string name="autoridad_ef_bahia">BAHÍA: se acepta orCat=1 (bay-control); se rechazan orCat=2 (station-control) y orCat=3 (remote-control)</string>
+    <string name="autoridad_ef_estacion">ESTACION: se acepta orCat=2 (station-control); se rechaza orCat=3 (remote-control)</string>
+    <string name="autoridad_ef_remoto">REMOTO: se acepta cualquier origen de mando</string>
+</resources>

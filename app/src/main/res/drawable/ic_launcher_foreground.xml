@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Launcher del IED Server Simulator.
+
+    Mismo lenguaje visual que IEDNavigator (line-art cian sobre azul marino, con
+    acento ambar), pero con motivo propio: alla el IED se explora, aca el IED
+    SIRVE - de ahi los arcos de senal saliendo del equipo.
+
+    Colores tomados pixel a pixel del icono de IEDNavigator:
+      trazo  #09C0DB   acento #FFBB01   fondo #010920 (en ic_launcher_background)
+
+    IMPORTANTE - zona segura del adaptive icon: el lienzo es 108x108 pero solo
+    los 72x72 centrales (18..90) estan garantizados; cada fabricante recorta el
+    resto con su mascara (circulo, squircle, etc.). Todo el dibujo vive dentro
+    de x 30..78, y 24..86.
+
+    El icono de escritorio tiene ~8 elementos (torre, PC, switch, burbujas
+    GOOSE/MMS, generador) porque se ve a 256px. Aca se renderiza a ~48dp: se
+    conserva UN motivo, no ocho, o se convierte en manchas.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- ===== Arcos de senal: el equipo publicando ===== -->
+    <path
+        android:pathData="M46,32 A10,10 0 0 1 62,32"
+        android:strokeColor="#09C0DB"
+        android:strokeWidth="2.2"
+        android:strokeLineCap="round"
+        android:fillColor="#00000000"/>
+    <path
+        android:pathData="M40,27 A16,16 0 0 1 68,27"
+        android:strokeColor="#09C0DB"
+        android:strokeWidth="2.2"
+        android:strokeAlpha="0.65"
+        android:strokeLineCap="round"
+        android:fillColor="#00000000"/>
+
+    <!-- Punto emisor (acento ambar) -->
+    <path
+        android:pathData="M54,36 m-2.6,0 a2.6,2.6 0 1,0 5.2,0 a2.6,2.6 0 1,0 -5.2,0"
+        android:fillColor="#FFBB01"/>
+
+    <!-- ===== Cuerpo del IED ===== -->
+    <path
+        android:pathData="M34,44 L74,44 A3,3 0 0 1 77,47 L77,83 A3,3 0 0 1 74,86
+                          L34,86 A3,3 0 0 1 31,83 L31,47 A3,3 0 0 1 34,44 Z"
+        android:strokeColor="#09C0DB"
+        android:strokeWidth="2.6"
+        android:fillColor="#00000000"/>
+
+    <!-- Pantalla -->
+    <path
+        android:pathData="M38,50 L70,50 L70,68 L38,68 Z"
+        android:strokeColor="#09C0DB"
+        android:strokeWidth="1.8"
+        android:strokeAlpha="0.9"
+        android:fillColor="#00000000"/>
+
+    <!-- Onda dentro de la pantalla -->
+    <path
+        android:pathData="M41,62 Q45,52 49,59 T57,59 T65,54"
+        android:strokeColor="#09C0DB"
+        android:strokeWidth="1.9"
+        android:strokeLineCap="round"
+        android:fillColor="#00000000"/>
+
+    <!-- Fila de LEDs: el central en ambar, como el del icono de escritorio -->
+    <path
+        android:pathData="M42,74 L48,74"
+        android:strokeColor="#09C0DB"
+        android:strokeWidth="2.4"
+        android:strokeLineCap="round"
+        android:fillColor="#00000000"/>
+    <path
+        android:pathData="M51,74 L57,74"
+        android:strokeColor="#FFBB01"
+        android:strokeWidth="2.4"
+        android:strokeLineCap="round"
+        android:fillColor="#00000000"/>
+    <path
+        android:pathData="M60,74 L66,74"
+        android:strokeColor="#09C0DB"
+        android:strokeWidth="2.4"
+        android:strokeLineCap="round"
+        android:fillColor="#00000000"/>
+
+    <!-- Bornes inferiores -->
+    <path
+        android:pathData="M43,86 L43,90 M54,86 L54,90 M65,86 L65,90"
+        android:strokeColor="#09C0DB"
+        android:strokeWidth="2"
+        android:strokeAlpha="0.75"
+        android:strokeLineCap="round"
+        android:fillColor="#00000000"/>
+</vector>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Tablet: ancho menor de pantalla >= 600dp.
+
+    Dos ajustes, por dos razones distintas.
+
+    El simbolo crece porque a 36dp estaba dimensionado para telefono y en una
+    tablet queda diminuto; el punteado del estado INTERMEDIO, que es la
+    diferencia mas fina de las cuatro, es el que mas gana.
+
+    Y la lista se margina a los costados porque el bloque de texto tiene
+    layout_weight=1: sin margen, en una pantalla ancha empuja los botones contra
+    el borde y quedan a media pantalla del estado que describen. Angostar la
+    columna los vuelve a acercar y de paso deja la linea de texto en un largo
+    legible, en vez de cruzar la tablet entera.
+-->
+<resources>
+    <dimen name="maniobra_sym_w">56dp</dimen>
+    <dimen name="maniobra_sym_h">76dp</dimen>
+    <dimen name="maniobra_sym_margen">18dp</dimen>
+
+    <dimen name="maniobra_lista_margen">48dp</dimen>
+
+    <dimen name="maniobra_fila_padding">16dp</dimen>
+    <dimen name="maniobra_boton_alto">52dp</dimen>
+    <dimen name="maniobra_boton_ancho">112dp</dimen>
+
+    <dimen name="maniobra_txt_nombre">18sp</dimen>
+    <dimen name="maniobra_txt_sub">13sp</dimen>
+    <dimen name="maniobra_txt_estado">16sp</dimen>
+    <dimen name="maniobra_txt_boton">14sp</dimen>
+</resources>
