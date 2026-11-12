@@ -122,6 +122,69 @@
                 android:textColor="@color/text_on_primary" />
         </LinearLayout>
 
+        <!-- Mecanismo y gas (5.6.0): solo en interruptores. -->
+        <LinearLayout
+            android:id="@+id/fila_mecanismo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="4dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="@string/mecanismo_titulo"
+                android:textSize="11sp"
+                android:textColor="@color/text_secondary" />
+
+            <Button
+                android:id="@+id/btn_mecanismo"
+                android:layout_width="wrap_content"
+                android:layout_height="38dp"
+                android:minWidth="120dp"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:textColor="@color/text_on_primary" />
+
+            <Button
+                android:id="@+id/btn_resorte"
+                android:layout_width="wrap_content"
+                android:layout_height="38dp"
+                android:minWidth="120dp"
+                android:layout_marginStart="6dp"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:textColor="@color/text_on_primary" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/fila_sf6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="4dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="@string/sf6_titulo"
+                android:textSize="11sp"
+                android:textColor="@color/text_secondary" />
+
+            <Button
+                android:id="@+id/btn_sf6"
+                android:layout_width="wrap_content"
+                android:layout_height="38dp"
+                android:minWidth="120dp"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:textColor="@color/text_on_primary" />
+        </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

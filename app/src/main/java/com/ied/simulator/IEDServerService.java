@@ -419,6 +419,7 @@ public class IEDServerService extends Service implements ServerEventListener {
      */
     public boolean maniobraLocal(String ref, boolean cerrar) {
         if (serverModel == null) return false;
+        if (bloqueoManiobraLocal(ref, cerrar) != 0) return false;
         List<BasicDataAttribute> cambiados = EstadoLocal.maniobrar(serverModel, ref, cerrar);
         if (cambiados.isEmpty()) return false;
 
@@ -501,6 +502,42 @@ public class IEDServerService extends Service implements ServerEventListener {
 
     public void ponerSincronismo(String ref, boolean falla) {
         EstadoLocal.ponerSincronismo(ref, falla);
+    }
+
+    // Fallas del mecanismo y del gas (5.6.0). Las del mecanismo no tocan el modelo: solo
+    // cambian como responde el aparato a un mando. Resorte y SF6 si: mueven CBOpCap y las
+    // alarmas del SIMG del LD, asi que se publican.
+
+    public boolean fallaApertura(String ref) { return EstadoLocal.fallaApertura(ref); }
+    public boolean fallaCierre(String ref) { return EstadoLocal.fallaCierre(ref); }
+    public void ponerFallaApertura(String ref, boolean falla) { EstadoLocal.ponerFallaApertura(ref, falla); }
+    public void ponerFallaCierre(String ref, boolean falla) { EstadoLocal.ponerFallaCierre(ref, falla); }
+
+    public boolean resorteDescargado(String ref) { return EstadoLocal.resorteDescargado(ref); }
+
+    public void ponerResorteDescargado(String ref, boolean descargado) {
+        if (serverModel == null) return;
+        publicarCambiosDe(EstadoLocal.ponerResorteDescargado(serverModel, ref, descargado));
+    }
+
+    public EstadoLocal.Sf6 sf6De(String ref) { return EstadoLocal.sf6De(ref); }
+
+    public void ponerSf6(String ref, EstadoLocal.Sf6 estado) {
+        if (serverModel == null) return;
+        publicarCambiosDe(EstadoLocal.ponerSf6(serverModel, ref, estado));
+    }
+
+    /**
+     * Por que la maniobra a pie de equipo no puede hacerse, o 0 si puede. Con el gas en
+     * bloqueo o el resorte descargado el mecanismo tampoco actua desde el pulsador del
+     * tablero, y una falla de mecanismo es justamente que no actua.
+     */
+    public int bloqueoManiobraLocal(String ref, boolean cerrar) {
+        if (serverModel == null) return 0;
+        if (EstadoLocal.sf6Para(serverModel, ref) == EstadoLocal.Sf6.BLOQUEO) return R.string.local_bloq_sf6;
+        if (cerrar && EstadoLocal.resorteDescargadoPara(serverModel, ref)) return R.string.local_bloq_resorte;
+        if (EstadoLocal.fallaMecanismoPara(serverModel, ref, cerrar)) return R.string.local_falla_mecanismo;
+        return 0;
     }
 
     /** Escribe los cambios en el modelo y emite los reportes, uno por uno. */

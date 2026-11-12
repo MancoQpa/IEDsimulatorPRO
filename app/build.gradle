@@ -16,7 +16,7 @@ plugins {
 // 5.5.0 (2026-11-04: respuesta del aparato, sincronismo y terminacion diferida),
 // 5.5.1 (2026-11-09: detener con clientes conectados ya no cierra la app; sin backup automatico).
 // ---------------------------------------------------------------------------
-def versionApp = [mayor: 5, menor: 5, parche: 1]
+def versionApp = [mayor: 5, menor: 6, parche: 0]
 
 // Commit con el que se compila, para el Acerca de. "+cambios" si había archivos versionados
 // modificados sin commitear (los no versionados no cuentan).

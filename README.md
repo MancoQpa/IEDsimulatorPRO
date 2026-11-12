@@ -27,6 +27,13 @@ instalaciones en servicio.
 - **Ventana de maniobra local:** posición inicial de cada aparato, como a pie de equipo, y
   cómo responde al mando: normal, **sin cablear** (queda en intermedio), **trabado** (no se
   mueve) o **lento** (recorrido de unos segundos); sincronismo en falla para los interruptores.
+- **Fallas del interruptor** (5.6.0): falla de apertura o de cierre (acepta la orden, no se
+  mueve y termina negativo con AddCause 16), **resorte descargado** (no cierra) y **gas SF6** en
+  alarma o en bloqueo, con `CBOpCap` y las alarmas del `SIMG` cuando el modelo las tiene;
+  **tiempos de apertura y de cierre** configurables, con paso por intermedio. Los pulsadores a
+  pie de equipo respetan las mismas fallas.
+- **Interruptores por polo:** un XCBR por fase y otro trifásico comandados por un solo CSWI
+  se mueven juntos.
 - **Modo simulación:** editar medidas y estados desde el árbol del modelo; los cambios salen
   por los reportes al cliente conectado.
 - Corre como servicio en segundo plano, con notificación.

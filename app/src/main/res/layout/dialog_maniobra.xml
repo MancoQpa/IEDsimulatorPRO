@@ -180,6 +180,14 @@
         android:padding="12dp">
 
         <Button
+            android:id="@+id/btn_tiempos"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tiempos_boton"
+            android:textColor="@color/brand_amber" />
+
+        <Button
             android:id="@+id/btn_reiniciar_estado"
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="wrap_content"

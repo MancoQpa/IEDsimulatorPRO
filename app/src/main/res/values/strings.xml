@@ -107,6 +107,26 @@
     <string name="respuesta_lento">LENTO (%1$d s)</string>
     <string name="sincronismo_ok">SINCRONISMO OK</string>
     <string name="sincronismo_falla">SINCRONISMO FALLA</string>
+    <string name="mecanismo_titulo">Mecanismo (simulación)</string>
+    <string name="mecanismo_ok">MECANISMO OK</string>
+    <string name="mecanismo_falla_apertura">FALLA APERTURA</string>
+    <string name="mecanismo_falla_cierre">FALLA CIERRE</string>
+    <string name="mecanismo_falla_ambas">FALLA AMBAS</string>
+    <string name="resorte_cargado">RESORTE CARGADO</string>
+    <string name="resorte_descargado">RESORTE DESCARGADO</string>
+    <string name="sf6_titulo">Gas SF6 (simulación)</string>
+    <string name="sf6_normal">SF6 NORMAL</string>
+    <string name="sf6_alarma">SF6 ALARMA</string>
+    <string name="sf6_bloqueo">SF6 BLOQUEO</string>
+    <string name="local_bloq_sf6">SF6 en bloqueo: el aparato no maniobra</string>
+    <string name="local_bloq_resorte">Resorte descargado: el interruptor no puede cerrar</string>
+    <string name="local_falla_mecanismo">Falla de mecanismo: el aparato no se movió</string>
+    <string name="tiempos_boton">TIEMPOS</string>
+    <string name="tiempos_titulo">Tiempos de maniobra (todos los aparatos)</string>
+    <string name="tiempos_apertura">Apertura (ms, 0 = en el acto)</string>
+    <string name="tiempos_cierre">Cierre (ms, 0 = en el acto)</string>
+    <string name="tiempos_falla">Aviso de falla de mecanismo (ms)</string>
+    <string name="tiempos_guardar">Aplicar</string>
     <string name="autoridad_bahia">BAHÍA</string>
     <string name="autoridad_estacion">ESTACION</string>
     <string name="autoridad_ef_local">LOCAL: selector en local, se rechaza todo mando por comunicación</string>

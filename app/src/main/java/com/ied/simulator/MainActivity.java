@@ -420,6 +420,7 @@ public class MainActivity extends AppCompatActivity {
         dialog.setOnDismissListener(d -> limpiar.run());
 
         final Runnable refrescarFinal = refrescar;
+        vista.findViewById(R.id.btn_tiempos).setOnClickListener(v -> mostrarTiempos());
 
         // Selector de autoridad del Logical Device. Es la jerarquia de arriba de
         // la llave por aparato: la llave dice si ESE equipo se opera a pie de
@@ -723,15 +724,113 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+        // Mecanismo y gas (5.6.0): solo en interruptores, que son los que tienen resorte y SF6.
+        View filaMec = fila.findViewById(R.id.fila_mecanismo);
+        View filaSf6 = fila.findViewById(R.id.fila_sf6);
+        if (!o.esAparato || !o.doblePunto || !o.nombre.contains("XCBR")) {
+            filaMec.setVisibility(View.GONE);
+            filaSf6.setVisibility(View.GONE);
+        } else {
+            int on = getResources().getColor(R.color.brand_amber);
+            int off = getResources().getColor(R.color.text_secondary);
+            Button bMec = fila.findViewById(R.id.btn_mecanismo);
+            boolean fa = serverService.fallaApertura(o.ref), fc = serverService.fallaCierre(o.ref);
+            bMec.setText(fa && fc ? R.string.mecanismo_falla_ambas
+                    : fa ? R.string.mecanismo_falla_apertura
+                    : fc ? R.string.mecanismo_falla_cierre
+                    : R.string.mecanismo_ok);
+            bMec.setBackgroundTintList(android.content.res.ColorStateList.valueOf(fa || fc ? on : off));
+            bMec.setOnClickListener(v -> {
+                // OK -> falla de apertura -> falla de cierre -> las dos -> OK
+                boolean a = serverService.fallaApertura(o.ref), c = serverService.fallaCierre(o.ref);
+                int paso = (a ? 1 : 0) + (c ? 2 : 0);
+                int sig = paso == 0 ? 1 : paso == 1 ? 2 : paso == 2 ? 3 : 0;
+                serverService.ponerFallaApertura(o.ref, (sig & 1) != 0);
+                serverService.ponerFallaCierre(o.ref, (sig & 2) != 0);
+                refrescar.run();
+            });
+
+            Button bRes = fila.findViewById(R.id.btn_resorte);
+            boolean desc = serverService.resorteDescargado(o.ref);
+            bRes.setText(desc ? R.string.resorte_descargado : R.string.resorte_cargado);
+            bRes.setBackgroundTintList(android.content.res.ColorStateList.valueOf(desc ? on : off));
+            bRes.setOnClickListener(v -> {
+                serverService.ponerResorteDescargado(o.ref, !serverService.resorteDescargado(o.ref));
+                refrescar.run();
+            });
+
+            Button bSf6 = fila.findViewById(R.id.btn_sf6);
+            EstadoLocal.Sf6 gas = serverService.sf6De(o.ref);
+            bSf6.setText(gas == EstadoLocal.Sf6.BLOQUEO ? R.string.sf6_bloqueo
+                    : gas == EstadoLocal.Sf6.ALARMA ? R.string.sf6_alarma
+                    : R.string.sf6_normal);
+            bSf6.setBackgroundTintList(android.content.res.ColorStateList.valueOf(
+                    gas == EstadoLocal.Sf6.NORMAL ? off : on));
+            bSf6.setOnClickListener(v -> {
+                EstadoLocal.Sf6[] todos = EstadoLocal.Sf6.values();
+                serverService.ponerSf6(o.ref, todos[(serverService.sf6De(o.ref).ordinal() + 1) % todos.length]);
+                refrescar.run();
+            });
+        }
+
         fila.findViewById(R.id.btn_obj_abrir).setOnClickListener(v -> {
-            serverService.maniobraLocal(o.ref, false);
+            maniobrarAPie(o.ref, false);
             refrescar.run();
         });
         fila.findViewById(R.id.btn_obj_cerrar).setOnClickListener(v -> {
-            serverService.maniobraLocal(o.ref, true);
+            maniobrarAPie(o.ref, true);
             refrescar.run();
         });
         return fila;
+    }
+
+    /** Pulsador a pie de equipo: si el mecanismo o el gas lo impiden, se dice por que. */
+    private void maniobrarAPie(String ref, boolean cerrar) {
+        int motivo = serverService.bloqueoManiobraLocal(ref, cerrar);
+        if (motivo != 0) {
+            Toast.makeText(this, motivo, Toast.LENGTH_LONG).show();
+            return;
+        }
+        serverService.maniobraLocal(ref, cerrar);
+    }
+
+    /** Tiempos de maniobra comunes a todos los aparatos (5.6.0). */
+    private void mostrarTiempos() {
+        int pad = (int) (16 * getResources().getDisplayMetrics().density);
+        LinearLayout caja = new LinearLayout(this);
+        caja.setOrientation(LinearLayout.VERTICAL);
+        caja.setPadding(pad, pad / 2, pad, 0);
+        final android.widget.EditText[] campos = new android.widget.EditText[3];
+        int[] titulos = {R.string.tiempos_apertura, R.string.tiempos_cierre, R.string.tiempos_falla};
+        long[] valores = {EstadoLocal.tiempoAperturaMs, EstadoLocal.tiempoCierreMs, EstadoLocal.tiempoFallaMs};
+        for (int i = 0; i < 3; i++) {
+            TextView t = new TextView(this);
+            t.setText(titulos[i]);
+            t.setTextSize(12f);
+            caja.addView(t);
+            campos[i] = new android.widget.EditText(this);
+            campos[i].setInputType(android.text.InputType.TYPE_CLASS_NUMBER);
+            campos[i].setText(String.valueOf(valores[i]));
+            caja.addView(campos[i]);
+        }
+        new AlertDialog.Builder(this, R.style.AboutDialogTheme)
+                .setTitle(R.string.tiempos_titulo)
+                .setView(caja)
+                .setPositiveButton(R.string.tiempos_guardar, (d, w) -> {
+                    EstadoLocal.tiempoAperturaMs = numero(campos[0], EstadoLocal.tiempoAperturaMs);
+                    EstadoLocal.tiempoCierreMs = numero(campos[1], EstadoLocal.tiempoCierreMs);
+                    EstadoLocal.tiempoFallaMs = numero(campos[2], EstadoLocal.tiempoFallaMs);
+                })
+                .setNegativeButton(R.string.action_close, null)
+                .show();
+    }
+
+    private static long numero(android.widget.EditText e, long siNo) {
+        try {
+            return Math.max(0, Math.min(60000, Long.parseLong(e.getText().toString().trim())));
+        } catch (NumberFormatException ex) {
+            return siNo;
+        }
     }
 
     private String textoRespuesta(EstadoLocal.Respuesta r) {
