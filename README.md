@@ -34,6 +34,10 @@ instalaciones en servicio.
   pie de equipo respetan las mismas fallas.
 - **Interruptores por polo:** un XCBR por fase y otro trifásico comandados por un solo CSWI
   se mueven juntos.
+- **Modo test del IED** (5.7.0): botón NORMAL / MODO TEST en la ventana de maniobra. El `Beh`
+  de cada nodo se deriva del modo del LD (`LLN0.Mod`) y de su `Mod` propio, como en un relé
+  (IEC 61850-7-4, anexo A); un cliente que opera un `Mod` por MMS obtiene el mismo efecto. En
+  test, los nodos solo aceptan mandos con el bit `Test`.
 - **Modo simulación:** editar medidas y estados desde el árbol del modelo; los cambios salen
   por los reportes al cliente conectado.
 - Corre como servicio en segundo plano, con notificación.

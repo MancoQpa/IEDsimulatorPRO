@@ -114,6 +114,59 @@
         android:textSize="11sp"
         android:textColor="@color/primary" />
 
+    <!-- Modo del IED (5.7.0): LLN0.Mod de todos los LD; el Beh de cada LN se deriva. -->
+    <TextView
+        android:id="@+id/tv_modo_titulo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="10dp"
+        android:text="@string/modo_titulo"
+        android:textSize="11sp"
+        android:textColor="@color/text_secondary" />
+
+    <LinearLayout
+        android:id="@+id/fila_modo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="4dp">
+
+        <Button
+            android:id="@+id/btn_modo_on"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="42dp"
+            android:text="@string/modo_on"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            android:textColor="@color/text_on_primary" />
+
+        <Button
+            android:id="@+id/btn_modo_test"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="42dp"
+            android:layout_marginStart="6dp"
+            android:text="@string/modo_test"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            android:textColor="@color/text_on_primary" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_modo_efecto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="2dp"
+        android:textSize="11sp"
+        android:textColor="@color/text_secondary" />
+
     <CheckBox
         android:id="@+id/chk_ver_todas"
         android:layout_width="match_parent"

@@ -122,6 +122,12 @@
     <string name="local_bloq_resorte">Resorte descargado: el interruptor no puede cerrar</string>
     <string name="local_falla_mecanismo">Falla de mecanismo: el aparato no se movió</string>
     <string name="tiempos_boton">TIEMPOS</string>
+    <string name="modo_titulo">Modo del IED (LLN0.Mod de todos los LD)</string>
+    <string name="modo_on">NORMAL (on)</string>
+    <string name="modo_test">MODO TEST</string>
+    <string name="modo_ef_on">Normal: los nodos aceptan mandos sin el bit Test</string>
+    <string name="modo_ef_test">Test: los nodos (Beh=test) solo aceptan mandos con Test=true</string>
+    <string name="modo_ef_mixto">Modos distintos por LD: elija uno para todo el IED</string>
     <string name="tiempos_titulo">Tiempos de maniobra (todos los aparatos)</string>
     <string name="tiempos_apertura">Apertura (ms, 0 = en el acto)</string>
     <string name="tiempos_cierre">Cierre (ms, 0 = en el acto)</string>

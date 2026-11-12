@@ -313,6 +313,7 @@ public class IEDServerService extends Service implements ServerEventListener {
 
             // Dar valores validos a Mod/Beh/Health antes de publicar el modelo
             EstadoLocal.inicializarModoYSalud(serverModel);
+            EstadoLocal.derivarComportamiento(serverModel);
             EstadoLocal.olvidarSimulacion();
 
             // Y dejar el "proceso" en un estado inicial coherente: sin
@@ -486,6 +487,16 @@ public class IEDServerService extends Service implements ServerEventListener {
         }
     }
 
+    /** Modo del IED (5.7.0): el de los LLN0 si coinciden, o null si no hay o difieren. */
+    public Integer modoIed() {
+        return EstadoLocal.modoIed(serverModel);
+    }
+
+    /** Pone el mismo modo en el LLN0 de todos los LD; el Beh de sus LN se deriva. */
+    public boolean ponerModoIed(int modo) {
+        return publicarCambiosDe(EstadoLocal.ponerModoIed(serverModel, modo));
+    }
+
     /** Respuesta simulada de un aparato (5.5.0). */
     public EstadoLocal.Respuesta respuestaDe(String ref) {
         return EstadoLocal.respuestaDe(ref);
@@ -609,6 +620,12 @@ public class IEDServerService extends Service implements ServerEventListener {
                 String newValue = bda.getValueString();
                 Log.i(TAG, "Value set successfully: " + cleanRef + " [" + fc + "] = " + newValue);
                 broadcastDataChanged(nodeRef, newValue);
+
+                // Editar un Mod a mano tambien cambia el Beh del LD (IEC 61850-7-4, anexo A).
+                if (cleanRef.endsWith(".Mod.stVal") && cleanRef.indexOf('/') > 0) {
+                    publicarCambiosDe(EstadoLocal.recalcularComportamiento(
+                            serverModel, cleanRef.substring(0, cleanRef.indexOf('/')), null));
+                }
             } else if (node != null) {
                 Log.w(TAG, "Node found but not a BasicDataAttribute: " + node.getClass().getSimpleName());
             } else {

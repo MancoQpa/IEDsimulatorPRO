@@ -422,6 +422,38 @@ public class MainActivity extends AppCompatActivity {
         final Runnable refrescarFinal = refrescar;
         vista.findViewById(R.id.btn_tiempos).setOnClickListener(v -> mostrarTiempos());
 
+        // Modo del IED (5.7.0): el LLN0.Mod de todos los LD; el Beh de cada LN se deriva de ahi.
+        {
+            final Button bOn = vista.findViewById(R.id.btn_modo_on);
+            final Button bTest = vista.findViewById(R.id.btn_modo_test);
+            final TextView tvEf = vista.findViewById(R.id.tv_modo_efecto);
+            final Runnable pintarModo = () -> {
+                Integer m = serverService.modoIed();
+                boolean test = m != null && (m == EstadoLocal.MODO_TEST || m == EstadoLocal.MODO_TEST_BLOQUEADO);
+                boolean on = m != null && m == EstadoLocal.MODO_ON;
+                int encendido = getResources().getColor(R.color.brand_amber);
+                int apagado = getResources().getColor(R.color.text_secondary);
+                bOn.setBackgroundTintList(android.content.res.ColorStateList.valueOf(on ? encendido : apagado));
+                bTest.setBackgroundTintList(android.content.res.ColorStateList.valueOf(test ? encendido : apagado));
+                tvEf.setText(test ? R.string.modo_ef_test : on ? R.string.modo_ef_on : R.string.modo_ef_mixto);
+            };
+            if (serverService.modoIed() == null && !hayModoEnAlgunLd()) {
+                vista.findViewById(R.id.tv_modo_titulo).setVisibility(View.GONE);
+                vista.findViewById(R.id.fila_modo).setVisibility(View.GONE);
+                tvEf.setVisibility(View.GONE);
+            } else {
+                pintarModo.run();
+                bOn.setOnClickListener(v -> {
+                    serverService.ponerModoIed(EstadoLocal.MODO_ON);
+                    pintarModo.run(); refrescarFinal.run();
+                });
+                bTest.setOnClickListener(v -> {
+                    serverService.ponerModoIed(EstadoLocal.MODO_TEST);
+                    pintarModo.run(); refrescarFinal.run();
+                });
+            }
+        }
+
         // Selector de autoridad del Logical Device. Es la jerarquia de arriba de
         // la llave por aparato: la llave dice si ESE equipo se opera a pie de
         // maquina, y esto dice desde donde se puede mandar cuando no lo esta.
@@ -782,6 +814,16 @@ public class MainActivity extends AppCompatActivity {
             refrescar.run();
         });
         return fila;
+    }
+
+    /** true si algun LD declara LLN0.Mod (si no, el modo del IED no se puede cambiar). */
+    private boolean hayModoEnAlgunLd() {
+        com.beanit.iec61850bean.ServerModel m = serverService.getServerModel();
+        if (m == null) return false;
+        for (com.beanit.iec61850bean.ModelNode ld : m.getChildren()) {
+            if (m.findModelNode(ld.getName() + "/LLN0.Mod.stVal", com.beanit.iec61850bean.Fc.ST) != null) return true;
+        }
+        return false;
     }
 
     /** Pulsador a pie de equipo: si el mecanismo o el gas lo impiden, se dice por que. */
