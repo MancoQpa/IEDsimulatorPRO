@@ -855,6 +855,10 @@ public class IEDServerService extends Service implements ServerEventListener {
             broadcastControlOk(ctl.descripcion);
         }
 
+        // 2026-11-15 (desde IEDNavigator): el bloque de grupos de ajuste valida como un IED
+        List<ServiceError> deSgcb = validarSgcb(bdas);
+        if (deSgcb != null) return deSgcb;
+
         for (BasicDataAttribute bda : bdas) {
             String ref = bda.getReference().toString();
             String value = bda.getValueString();
@@ -863,6 +867,69 @@ public class IEDServerService extends Service implements ServerEventListener {
         }
 
         return null; // No errors
+    }
+
+    /**
+     * Escrituras al bloque de grupos de ajuste (LLN0$SP$SGCB, IEC 61850-7-2 / 8-1), como un IED:
+     * NumOfSG, LActTm y ResvTms son de solo lectura; ActSG va de 1 a NumOfSG y al cambiar
+     * actualiza LActTm; EditSG va de 0 a NumOfSG. Devuelve un error por atributo si hay que
+     * rechazar, o null si la escritura sigue su curso. El SGCB lo crea el SclParser desde
+     * SettingControl (2026-11-15). Mismo codigo que IEC61850Server de IEDNavigator.
+     *
+     * El simulador guarda un solo juego de valores de ajuste: cambiar el grupo activo no cambia
+     * los valores (se avisa en el registro).
+     */
+    private List<ServiceError> validarSgcb(List<BasicDataAttribute> bdas) {
+        ServiceError error = null;
+        final List<BasicDataAttribute> lact = new ArrayList<>();
+        for (BasicDataAttribute bda : bdas) {
+            String ref = bda.getReference().toString();
+            int k = ref.indexOf(".SGCB.");
+            if (k < 0 || bda.getFc() != Fc.SP) continue;
+            String campo = ref.substring(k + 6);
+            String sgcb = ref.substring(0, k + 5);
+            ModelNode numNodo = serverModel.findModelNode(sgcb + ".NumOfSG", Fc.SP);
+            int num = numNodo instanceof com.beanit.iec61850bean.BdaInt8U
+                    ? ((com.beanit.iec61850bean.BdaInt8U) numNodo).getValue() : 1;
+            int v = bda instanceof com.beanit.iec61850bean.BdaInt8U
+                    ? ((com.beanit.iec61850bean.BdaInt8U) bda).getValue() : -1;
+            switch (campo) {
+                case "NumOfSG": case "LActTm": case "ResvTms":
+                    error = new ServiceError(ServiceError.ACCESS_VIOLATION, sgcb + "." + campo + " es de solo lectura");
+                    break;
+                case "ActSG":
+                    if (v < 1 || v > num) {
+                        error = new ServiceError(ServiceError.PARAMETER_VALUE_INAPPROPRIATE,
+                                "ActSG " + v + " fuera de 1.." + num);
+                    } else {
+                        ModelNode t = serverModel.findModelNode(sgcb + ".LActTm", Fc.SP);
+                        if (t instanceof com.beanit.iec61850bean.BdaTimestamp) {
+                            com.beanit.iec61850bean.BdaTimestamp c = (com.beanit.iec61850bean.BdaTimestamp)
+                                    ((com.beanit.iec61850bean.BdaTimestamp) t).copy();
+                            c.setCurrentTime();
+                            lact.add(c);
+                        }
+                        Log.i(TAG, "Grupo de ajuste activo -> " + v
+                                + " (el simulador guarda un solo juego de valores de ajuste)");
+                    }
+                    break;
+                case "EditSG":
+                    if (v < 0 || v > num) {
+                        error = new ServiceError(ServiceError.PARAMETER_VALUE_INAPPROPRIATE,
+                                "EditSG " + v + " fuera de 0.." + num);
+                    }
+                    break;
+                default:
+            }
+        }
+        if (error != null) {
+            Log.w(TAG, "SGCB rechazado: " + error.getMessage());
+            List<ServiceError> errores = new ArrayList<>();
+            for (int i = 0; i < bdas.size(); i++) errores.add(error);
+            return errores;
+        }
+        if (!lact.isEmpty()) publicarCambios(lact);   // setValues() no va dentro de write()
+        return null;
     }
 
     /**

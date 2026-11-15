@@ -38,6 +38,14 @@ instalaciones en servicio.
   de cada nodo se deriva del modo del LD (`LLN0.Mod`) y de su `Mod` propio, como en un relé
   (IEC 61850-7-4, anexo A); un cliente que opera un `Mod` por MMS obtiene el mismo efecto. En
   test, los nodos solo aceptan mandos con el bit `Test`.
+- **Reportes más completos** (5.8.0): **reportes con buffer (BRCB)**: guardan los cambios
+  mientras no hay cliente y, al reconectarse, el cliente retoma desde la última EntryID que
+  recibió (BufOvfl si se perdieron entradas, PurgeBuf, GI, integridad). Los reportes traen las
+  **referencias de los datos** y la **revisión de configuración** cuando el SCL las pide, el
+  motivo de inclusión sale con 6 bits y el `OptFlds` de un URCB se puede escribir.
+- **Grupos de ajuste** (5.8.0): el bloque `SGCB` del SCL (`SettingControl`) se ve por MMS y
+  valida `ActSG`/`EditSG` como un relé (un solo juego de valores de ajuste).
+- **Contador de maniobras:** `OpCnt` del XCBR/XSWI avanza con cada maniobra real (5.8.0).
 - **Modo simulación:** editar medidas y estados desde el árbol del modelo; los cambios salen
   por los reportes al cliente conectado.
 - Corre como servicio en segundo plano, con notificación.
@@ -73,7 +81,7 @@ Requiere un JDK 17 o 21 y el SDK de Android.
 ```
 
 La app usa [iec61850bean](https://github.com/beanit/iec61850bean) 1.9.0 (Apache 2.0), con
-dos clases modificadas; el detalle de cada cambio está en
+cuatro clases modificadas; el detalle de cada cambio está en
 [`PARCHES-LIBRERIA.md`](PARCHES-LIBRERIA.md).
 
 ## Licencia

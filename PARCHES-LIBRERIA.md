@@ -1,9 +1,14 @@
 # Parches sobre iec61850bean 1.9.0
 
-La app compila copias modificadas de **dos clases** de la librería:
+La app compila copias modificadas de **cuatro clases** de la librería:
 
     app/src/main/java/com/beanit/iec61850bean/ServerAssociation.java
     app/src/main/java/com/beanit/iec61850bean/SclParser.java     (desde 2026-10-21)
+    app/src/main/java/com/beanit/iec61850bean/ServerModel.java   (desde 2026-11-15)
+    app/src/main/java/com/beanit/iec61850bean/BdaReasonForInclusion.java (desde 2026-11-15)
+
+y suma tres clases propias en el mismo paquete (no reemplazan nada):
+`NodoFcDeLn`, `ReferenciasEnReporte` y `ReportadorBrcb` (2026-11-15).
 
 El `.jar` original se sigue usando para todo lo demás. En `app/build.gradle` se
 excluyen de él las clases parcheadas (y sus clases internas) y se compilan las
@@ -181,6 +186,35 @@ trae retardo o cambios finales, la terminación ya no sale pegada a la respuesta
 (`Terminacion.programar`) aplica los cambios, los publica y recién ahí manda la terminación,
 positiva (Oper) o negativa (LastApplError con el AddCause del plan + Oper, `terminacionNegativa`).
 
+### 8. Reportes y servicios (2026-11-15, traídos de IEDNavigator)
+
+Salieron de usar una herramienta comercial como cliente del simulador de escritorio, que
+comparte estas clases. Mismo código en los dos proyectos; en IEDNavigator están las pruebas
+`test/TestMotivoReporte`, `TestLecturaFcDeLn`, `TestReferenciasReporte`, `TestSgcbSimulador` y
+`TestBrcb`. Acá, el driver `banco/src/banco/Reportes.java`.
+
+- **Motivo de inclusión con 6 bits** (`BdaReasonForInclusion`). La librería mandaba 7 y el
+  cliente cortaba la asociación al primer reporte (GI o integridad). El séptimo bit
+  (application-trigger) sólo sale si está puesto; se siguen aceptando 6 y 7 al leer.
+- **Lectura de un FC entero de un LN** (`LLN0$ST`; `ServerModel.getNodeFromVariableDef` +
+  `NodoFcDeLn`). Tiraba "invalid mms item id" y el pedido entero fallaba; el cliente lo hace
+  con cada LN al descubrir (unos 1.700 errores con un CID real).
+- **OptFlds del SCL** (`SclParser`): `dataRef` y `configRef` se respetan. Las referencias de
+  los datos las inserta `ReferenciasEnReporte` antes de mandar el PDU (`sendAnMmsPdu`); el Urcb
+  de la librería anunciaba el campo sin traerlas y el cliente leía los valores corridos.
+- **Escritura de OptFlds en un URCB** (`ServerAssociation.getWriteResult`): miraba el valor
+  actual, no el escrito, y rechazaba config-revision y data-reference. Con un SCL que los trae,
+  toda escritura fallaba. Ahora se acepta; bufOvfl y entryID se apagan.
+- **SGCB** (`SclParser.crearSgcb`): `<SettingControl>` crea `LLN0$SP$SGCB`; antes no existía
+  por MMS. `IEDServerService.validarSgcb` valida las escrituras como un IED (ActSG 1..NumOfSG
+  y actualiza LActTm, EditSG 0..NumOfSG, el resto de solo lectura). Un solo juego de valores.
+- **Reportes con buffer** (`ReportadorBrcb`, rama `fc == Fc.BR` de `getWriteResult` y aviso en
+  `cleanUpConnection`). La librería no mandaba nada de un BRCB. Ahora: buffer de 1000
+  entradas con EntryID de 8 bytes, BufOvfl, resincronización al rehabilitar (desde la última
+  enviada o la EntryID que escribe el cliente), PurgeBuf, GI, IntgPd, BufTm; con la asociación
+  caída RptEna pasa a false y el buffer sigue llenándose. SqNum queda INT8U, como lo modela
+  la librería (8-1 pide INT16U en un BRCB).
+
 ### Ojo: el jar se arma con Gradle y Gradle no lo rearmaba
 
 Las clases originales se sacan del jar en la tarea `iec61850SinServerAssociation`
@@ -205,6 +239,6 @@ reemplazada queda en el jar (probado sacando el `exclude`). Para revisar un APK:
 
 Hay que rehacer los parches sobre el nuevo fuente: bajar
 `iec61850bean-<version>-sources.jar` de Maven Central, extraer
-`ServerAssociation.java` y `SclParser.java`, y reaplicar los siete cambios (están
-marcados con el comentario `PARCHE IEDSimulator`). Conviene revisar antes si la
+`ServerAssociation.java` y `SclParser.java`, y reaplicar los cambios (están
+marcados con el comentario `PARCHE IEDSimulator` o `PARCHE IEDNavigator`). Conviene revisar antes si la
 versión nueva ya resolvió alguno.

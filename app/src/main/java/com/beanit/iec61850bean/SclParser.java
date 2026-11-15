@@ -348,6 +348,12 @@ public class SclParser {
       Node childNode = lnXmlNode.getChildNodes().item(i);
       if ("ReportControl".equals(childNode.getNodeName())) {
         dataObjects.addAll(createReportControlBlocks(childNode, ref));
+      } else if ("SettingControl".equals(childNode.getNodeName())) {
+        // PARCHE IEDSimulator (2026-11-15, desde IEDNavigator): la biblioteca ignoraba SettingControl y el SGCB
+        // no existia por MMS (un cliente comercial: "IED has no Setting Group Control Blocks").
+        boolean yaEsta = false;
+        for (FcDataObject d : dataObjects) yaEsta |= d.getFc() == Fc.SP && "SGCB".equals(d.getName());
+        if (!yaEsta) dataObjects.add(crearSgcb(childNode, ref));
       }
     }
 
@@ -467,6 +473,43 @@ public class SclParser {
     return dataSet;
   }
 
+  private static FcDataObject crearSgcb(Node settingControl, String lnRef) {
+    NamedNodeMap at = settingControl.getAttributes();
+    int numOfSG = entero(at.getNamedItem("numOfSGs"), 1);
+    int actSG = entero(at.getNamedItem("actSG"), 1);
+    int resvTms = entero(at.getNamedItem("resvTms"), 0);
+    String base = lnRef + ".SGCB";
+    List<FcModelNode> hijos = new ArrayList<>();
+    BdaInt8U num = new BdaInt8U(new ObjectReference(base + ".NumOfSG"), Fc.SP, null, false, false);
+    num.setValue((short) numOfSG);
+    BdaInt8U act = new BdaInt8U(new ObjectReference(base + ".ActSG"), Fc.SP, null, true, false);
+    act.setValue((short) Math.max(1, Math.min(actSG, numOfSG)));
+    BdaInt8U edit = new BdaInt8U(new ObjectReference(base + ".EditSG"), Fc.SP, null, true, false);
+    edit.setValue((short) 0);
+    BdaBoolean cnf = new BdaBoolean(new ObjectReference(base + ".CnfEdit"), Fc.SP, null, false, false);
+    cnf.setValue(false);
+    BdaTimestamp lact = new BdaTimestamp(new ObjectReference(base + ".LActTm"), Fc.SP, null, false, false);
+    lact.setInstant(java.time.Instant.now());
+    BdaInt16U resv = new BdaInt16U(new ObjectReference(base + ".ResvTms"), Fc.SP, null, false, false);
+    resv.setValue(resvTms);
+    hijos.add(num);
+    hijos.add(act);
+    hijos.add(edit);
+    hijos.add(cnf);
+    hijos.add(lact);
+    hijos.add(resv);
+    return new FcDataObject(new ObjectReference(base), Fc.SP, hijos);
+  }
+
+  private static int entero(Node atributo, int porDefecto) {
+    if (atributo == null) return porDefecto;
+    try {
+      return Integer.parseInt(atributo.getNodeValue().trim());
+    } catch (NumberFormatException e) {
+      return porDefecto;
+    }
+  }
+
   private List<Rcb> createReportControlBlocks(Node xmlNode, String parentRef)
       throws SclParseException {
 
@@ -571,11 +614,22 @@ public class SclParser {
               // optFields.setDataReference(node.getNodeValue().equals("true"));
               //
               // }
+              // PARCHE IEDSimulator (2026-11-15, desde IEDNavigator): dataRef se respeta; ServerAssociation agrega
+              // las referencias al reporte (ReferenciasEnReporte).
+              else if (nodeName.equals("dataRef")) {
+                optFields.setDataReference(node.getNodeValue().equalsIgnoreCase("true"));
+              }
               else if (nodeName.equals("bufOvfl")) {
                 optFields.setBufferOverflow(node.getNodeValue().equalsIgnoreCase("true"));
 
               } else if (nodeName.equals("entryID")) {
                 optFields.setEntryId(node.getNodeValue().equalsIgnoreCase("true"));
+              }
+              // PARCHE IEDSimulator (2026-11-15, desde IEDNavigator): configRef se respeta. El Urcb de la biblioteca
+              // sí arma conf-rev en el reporte; el parser lo descartaba y el RCB quedaba sin el
+              // campo que pide el CID (el simulador de una herramienta comercial sí lo manda).
+              else if (nodeName.equals("configRef")) {
+                optFields.setConfigRevision(node.getNodeValue().equalsIgnoreCase("true"));
               }
               // not supported for now:
               // else if (nodeName.equals("configRef")) {

@@ -14,9 +14,10 @@ plugins {
 // 5.3.0 (2026-11-03: LOCAL = bloqueo total; BAHIA = solo orCat 1),
 // 5.4.0 (2026-11-03: LastApplError con AddCause y CommandTermination),
 // 5.5.0 (2026-11-04: respuesta del aparato, sincronismo y terminacion diferida),
-// 5.5.1 (2026-11-09: detener con clientes conectados ya no cierra la app; sin backup automatico).
+// 5.5.1 (2026-11-09: detener con clientes conectados ya no cierra la app; sin backup automatico),
+// 5.8.0 (2026-11-15: reportes con buffer, referencias en el reporte, SGCB, OpCnt).
 // ---------------------------------------------------------------------------
-def versionApp = [mayor: 5, menor: 7, parche: 0]
+def versionApp = [mayor: 5, menor: 8, parche: 0]
 
 // Commit con el que se compila, para el Acerca de. "+cambios" si había archivos versionados
 // modificados sin commitear (los no versionados no cuentan).
@@ -132,6 +133,10 @@ android {
 //
 // SclParser (2026-10-21): los arreglos de atributos tomaban todos el valor del
 // primer elemento, porque ignoraba el atributo ix. Mismo mecanismo.
+//
+// ServerModel y BdaReasonForInclusion (2026-11-15, traidas de IEDNavigator): lectura de un FC
+// entero de un LN (LN$ST) y motivo de inclusion de 6 bits (con 7 un cliente comercial cortaba la
+// asociacion al primer reporte). ServerModel ademas guarda el motor de cada BRCB.
 // ---------------------------------------------------------------------------
 configurations {
     iec61850Original { transitive = false }
@@ -145,6 +150,10 @@ def iec61850Parcheado = tasks.register('iec61850SinServerAssociation', Jar) {
         exclude 'com/beanit/iec61850bean/ServerAssociation$*.class'
         exclude 'com/beanit/iec61850bean/SclParser.class'
         exclude 'com/beanit/iec61850bean/SclParser$*.class'
+        exclude 'com/beanit/iec61850bean/ServerModel.class'
+        exclude 'com/beanit/iec61850bean/ServerModel$*.class'
+        exclude 'com/beanit/iec61850bean/BdaReasonForInclusion.class'
+        exclude 'com/beanit/iec61850bean/BdaReasonForInclusion$*.class'
     }
     // Se rearma SIEMPRE. Gradle no detecta un cambio en los exclude de arriba como cambio de
     // entradas: al agregar SclParser (2026-10-21) la tarea siguio "UP-TO-DATE" y el jar del
@@ -154,7 +163,7 @@ def iec61850Parcheado = tasks.register('iec61850SinServerAssociation', Jar) {
     outputs.upToDateWhen { false }
     // Y se verifica: si una clase reemplazada quedara en el jar, el build falla aca.
     doLast {
-        def reemplazadas = ['ServerAssociation', 'SclParser']
+        def reemplazadas = ['ServerAssociation', 'SclParser', 'ServerModel', 'BdaReasonForInclusion']
         def colados = []
         zipTree(archiveFile.get().asFile).visit { f ->
             def p = f.path
