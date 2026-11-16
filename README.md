@@ -51,6 +51,9 @@ instalaciones en servicio.
   intermedio sale con su propio cambio por reportes. Una orden a la posición en la que ya está
   el aparato no lo mueve ni cuenta maniobra. Un archivo SCL con un enumerado fuera de su tipo
   (por ejemplo `-`) ya no deja de cargar: se descarta ese valor inicial.
+- **LD en el mismo orden que un relé** (5.8.2): el servidor entrega la lista de dispositivos
+  lógicos ordenada alfabéticamente, como lo hace un IED por MMS. Un cliente ve los LD en el
+  mismo orden que con el equipo real.
 - **Modo simulación:** editar medidas y estados desde el árbol del modelo; los cambios salen
   por los reportes al cliente conectado.
 - Corre como servicio en segundo plano, con notificación.
