@@ -327,8 +327,16 @@ public class SclFileParser {
      */
     private static String extraerValorInvalido(String mensaje) {
         if (mensaje == null) return null;
-        final String marca = "configured value: ";
+        String marca = "configured value: ";
         int i = mensaje.indexOf(marca);
+        if (i < 0) {
+            // Enumerado con un valor que no esta en su EnumType ("-" como "sin valor", visto en
+            // pulseConfig.cmdQual de una unidad de control): la libreria dice "unknown enum
+            // value: -" y abortaba el archivo entero. Los ordinales numericos ("004") ya los
+            // resuelve patchMissingEnumOrdinals. Mismo cambio que IEDNavigator (2026-11-16).
+            marca = "unknown enum value: ";
+            i = mensaje.indexOf(marca);
+        }
         if (i < 0) return null;
         String valor = mensaje.substring(i + marca.length()).trim();
         return valor.isEmpty() ? null : valor;

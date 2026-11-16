@@ -46,6 +46,11 @@ instalaciones en servicio.
 - **Grupos de ajuste** (5.8.0): el bloque `SGCB` del SCL (`SettingControl`) se ve por MMS y
   valida `ActSG`/`EditSG` como un relé (un solo juego de valores de ajuste).
 - **Contador de maniobras:** `OpCnt` del XCBR/XSWI avanza con cada maniobra real (5.8.0).
+- **Maniobra con recorrido** (5.8.1): cada apertura y cierre pasa por intermedio y llega a la
+  posición final a los 100 ms (ajustable en la ventana de maniobra; 0 = instantáneo), así el
+  intermedio sale con su propio cambio por reportes. Una orden a la posición en la que ya está
+  el aparato no lo mueve ni cuenta maniobra. Un archivo SCL con un enumerado fuera de su tipo
+  (por ejemplo `-`) ya no deja de cargar: se descarta ese valor inicial.
 - **Modo simulación:** editar medidas y estados desde el árbol del modelo; los cambios salen
   por los reportes al cliente conectado.
 - Corre como servicio en segundo plano, con notificación.
