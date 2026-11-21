@@ -17,9 +17,11 @@ plugins {
 // 5.5.1 (2026-11-09: detener con clientes conectados ya no cierra la app; sin backup automatico),
 // 5.8.0 (2026-11-15: reportes con buffer, referencias en el reporte, SGCB, OpCnt),
 // 5.8.1 (2026-11-16: maniobra de 100 ms con intermedio; enumerados fuera de su tipo en el SCL),
-// 5.8.2 (2026-11-16: lista de LD en orden alfabetico, como un rele).
+// 5.8.2 (2026-11-16: lista de LD en orden alfabetico, como un rele),
+// 5.8.3 (2026-11-20: LD en el orden del archivo; sustitucion FC=SV; orden a la posicion actual
+// rechazada con AddCause 5).
 // ---------------------------------------------------------------------------
-def versionApp = [mayor: 5, menor: 8, parche: 2]
+def versionApp = [mayor: 5, menor: 8, parche: 3]
 
 // Commit con el que se compila, para el Acerca de. "+cambios" si había archivos versionados
 // modificados sin commitear (los no versionados no cuentan).

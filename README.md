@@ -49,11 +49,14 @@ instalaciones en servicio.
 - **Maniobra con recorrido** (5.8.1): cada apertura y cierre pasa por intermedio y llega a la
   posición final a los 100 ms (ajustable en la ventana de maniobra; 0 = instantáneo), así el
   intermedio sale con su propio cambio por reportes. Una orden a la posición en la que ya está
-  el aparato no lo mueve ni cuenta maniobra. Un archivo SCL con un enumerado fuera de su tipo
+  el aparato no lo mueve ni cuenta maniobra; desde la 5.8.3 se rechaza con AddCause 5
+  (posición ya alcanzada), como un relé. Un archivo SCL con un enumerado fuera de su tipo
   (por ejemplo `-`) ya no deja de cargar: se descarta ese valor inicial.
-- **LD en el mismo orden que un relé** (5.8.2): el servidor entrega la lista de dispositivos
-  lógicos ordenada alfabéticamente, como lo hace un IED por MMS. Un cliente ve los LD en el
-  mismo orden que con el equipo real.
+- **LD en el orden del archivo** (5.8.3): el servidor entrega la lista de dispositivos lógicos
+  en el orden en que están en el SCL. La 5.8.2 los ordenaba alfabéticamente; se volvió atrás.
+- **Sustitución de valores** (5.8.3, IEC 61850-7-3, FC=SV): con `subEna` el servidor publica
+  `subVal`/`subMag`/`subCVal` y `subQ` marcado como sustituido; lo que cambia en el proceso
+  mientras tanto se guarda y vuelve al deshabilitar la sustitución.
 - **Modo simulación:** editar medidas y estados desde el árbol del modelo; los cambios salen
   por los reportes al cliente conectado.
 - Corre como servicio en segundo plano, con notificación.

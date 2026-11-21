@@ -312,6 +312,7 @@ public class IEDServerService extends Service implements ServerEventListener {
             }
 
             // Dar valores validos a Mod/Beh/Health antes de publicar el modelo
+            Sustitucion.limpiar();
             EstadoLocal.inicializarModoYSalud(serverModel);
             EstadoLocal.derivarComportamiento(serverModel);
             EstadoLocal.olvidarSimulacion();
@@ -551,8 +552,15 @@ public class IEDServerService extends Service implements ServerEventListener {
         return 0;
     }
 
-    /** Escribe los cambios en el modelo y emite los reportes, uno por uno. */
+    /**
+     * Escribe los cambios en el modelo y emite los reportes, uno por uno. Lo que el proceso
+     * cambia en un dato sustituido no sale: queda como valor de proceso (Sustitucion).
+     */
     private void aplicarYPublicar(List<BasicDataAttribute> cambiados) {
+        aplicarSinFiltro(Sustitucion.filtrarProceso(cambiados));
+    }
+
+    private void aplicarSinFiltro(List<BasicDataAttribute> cambiados) {
         ServerSap sap = serverSap;
         if (sap == null) return;
         for (BasicDataAttribute b : cambiados) {
@@ -603,6 +611,16 @@ public class IEDServerService extends Service implements ServerEventListener {
             if (node instanceof BasicDataAttribute) {
                 BasicDataAttribute bda = (BasicDataAttribute) node;
                 Log.d(TAG, "Found BDA type: " + bda.getClass().getSimpleName() + ", current value: " + bda.getValueString());
+
+                // Un dato sustituido no cambia lo publicado: se guarda como valor de proceso
+                BasicDataAttribute nuevo = (BasicDataAttribute) bda.copy();
+                setBasicDataAttributeValue(nuevo, value);
+                List<BasicDataAttribute> prueba = new ArrayList<>();
+                prueba.add(nuevo);
+                if (Sustitucion.filtrarProceso(prueba).isEmpty()) {
+                    Log.i(TAG, cleanRef + " esta sustituido: el valor queda como valor de proceso");
+                    return;
+                }
 
                 setBasicDataAttributeValue(bda, value);
 
@@ -858,6 +876,16 @@ public class IEDServerService extends Service implements ServerEventListener {
         // 2026-11-15 (desde IEDNavigator): el bloque de grupos de ajuste valida como un IED
         List<ServiceError> deSgcb = validarSgcb(bdas);
         if (deSgcb != null) return deSgcb;
+
+        // Sustitucion (IEC 61850-7-3, FC=SV): con subEna el dato publica subVal/subMag y subQ
+        // marcada "substituted"; sin subEna vuelve el valor de proceso. Mismo codigo que IEDNavigator.
+        final List<BasicDataAttribute> sustitucion = Sustitucion.porEscritura(serverModel, bdas);
+        if (!sustitucion.isEmpty()) {
+            Log.i(TAG, "Sustitucion: " + sustitucion.size() + " atributo(s) publicados");
+            new Thread(new Runnable() {
+                @Override public void run() { aplicarSinFiltro(sustitucion); }
+            }, "publicar-sustitucion").start();
+        }
 
         for (BasicDataAttribute bda : bdas) {
             String ref = bda.getReference().toString();
